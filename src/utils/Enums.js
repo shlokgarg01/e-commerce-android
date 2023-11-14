@@ -1,0 +1,14 @@
+const Enums = {
+  COUPON_TYPE: {
+    PERCENTAGE: 'PERCENTAGE',
+    FLAT_VALUE: 'FLAT_VALUE',
+  },
+  ORDER_STATUS: {
+    RECEIVED: 'RECEIVED',
+    DISPATCHED: 'DISPATCHED',
+    DELIVERED: 'DELIVERED',
+    CANCELLED: 'CANCELLED',
+  },
+};
+
+export default Enums;
