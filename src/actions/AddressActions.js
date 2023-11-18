@@ -16,13 +16,13 @@ import {
   UPDATE_ADDRESS_REQUEST,
   UPDATE_ADDRESS_SUCCESS,
 } from '../constants/AddressConstants';
-import axiosInstance from '../utils/Axios';
+import axiosInstance, { BASE_URL } from '../utils/Axios';
 
 // get my addresses
 export const myAddresses = () => async dispatch => {
   try {
     dispatch({type: MY_ADDRESSES_REQUEST});
-    const {data} = await axiosInstance.get(`/api/v1/address/me`);
+    const {data} = await axiosInstance.get(`${BASE_URL}/api/v1/address/me`);
 
     dispatch({type: MY_ADDRESSES_SUCCESS, payload: data.addresses});
   } catch (error) {
@@ -40,7 +40,7 @@ export const getAddressDetails = id => async dispatch => {
       type: ADDRESS_DETAILS_REQUEST,
     });
 
-    const {data} = await axiosInstance.get(`/api/v1/address/${id}`);
+    const {data} = await axiosInstance.get(`${BASE_URL}/api/v1/address/${id}`);
     dispatch({
       type: ADDRESS_DETAILS_SUCCESS,
       payload: data.address,
@@ -62,7 +62,7 @@ export const createAddress = addressData => async dispatch => {
 
     const config = {'Content-Type': 'application/json'};
     const {data} = await axiosInstance.post(
-      `/api/v1/address/new`,
+      `${BASE_URL}/api/v1/address/new`,
       addressData,
       config,
     );
@@ -82,7 +82,7 @@ export const createAddress = addressData => async dispatch => {
 export const deleteAddress = id => async dispatch => {
   try {
     dispatch({type: DELETE_ADDRESS_REQUEST});
-    const {data} = await axiosInstance.delete(`/api/v1/address/${id}`);
+    const {data} = await axiosInstance.delete(`${BASE_URL}/api/v1/address/${id}`);
 
     dispatch({type: DELETE_ADDRESS_SUCCESS, payload: data});
   } catch (error) {
@@ -99,7 +99,7 @@ export const updateAddress = (id, addressData) => async dispatch => {
     dispatch({type: UPDATE_ADDRESS_REQUEST});
     const config = {'Content-Type': 'application/json'};
     const {data} = await axiosInstance.put(
-      `/api/v1/address/${id}`,
+      `${BASE_URL}/api/v1/address/${id}`,
       addressData,
       config,
     );

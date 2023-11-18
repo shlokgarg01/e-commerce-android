@@ -7,13 +7,13 @@ import {
   PLACE_NEW_ORDER_REQUEST,
   PLACE_NEW_ORDER_SUCCESS,
 } from '../constants/OrderConstants';
-import axiosInstance from '../utils/Axios';
+import axiosInstance, { BASE_URL } from '../utils/Axios';
 
 // get my orders
 export const myOrders = () => async dispatch => {
   try {
     dispatch({type: MY_ORDERS_REQUEST});
-    const {data} = await axiosInstance.get(`/api/v1/orders/me`);
+    const {data} = await axiosInstance.get(`${BASE_URL}/api/v1/orders/me`);
 
     dispatch({type: MY_ORDERS_SUCCESS, payload: data.orders});
   } catch (error) {
@@ -34,7 +34,7 @@ export const createOrder = order => async dispatch => {
         'Content-Type': 'application/json',
       },
     };
-    const {data} = await axiosInstance.post('/api/v1/order/new', order, config);
+    const {data} = await axiosInstance.post(`${BASE_URL}/api/v1/order/new`, order, config);
 
     dispatch({type: PLACE_NEW_ORDER_SUCCESS, payload: data});
   } catch (error) {

@@ -3,26 +3,24 @@ import store from '../../store';
 import {loadUser} from '../actions/userActions';
 import {useSelector} from 'react-redux';
 import {Image, View} from 'react-native';
-import {deviceHeight, deviceWidth} from '../helpers/Dimensions';
 
 const Splash = ({navigation}) => {
-  const {isAutheticated, loading} = useSelector(state => state.user);
+  const {isAuthenticated} = useSelector(state => state.user);
 
   useEffect(() => {
     store.dispatch(loadUser());
     let routeName = '';
 
-    if (isAutheticated) {
+    if (isAuthenticated) {
       routeName = 'tabnav';
     } else {
       routeName = 'loginotp';
     }
 
     setTimeout(() => {
-      console.log("-------------------------------------", isAutheticated, loading)
       navigation.replace(routeName);
     }, 2000);
-  }, [isAutheticated]);
+  }, []);
 
   return (
     <View

@@ -39,8 +39,9 @@ export default function Cart() {
     const price = cartItems.reduce((sum, item) => {
       return sum + item.price * item.quantity;
     }, 0);
-    const taxApplied = parseInt((price * 18) / 100)
-    const shipping = 50
+    // const taxApplied = parseInt((price * 18) / 100)
+    const taxApplied = 0
+    const shipping = 0
     const discountAvailed = discount || discountApplied
     
     setShippingPrice(shipping);
@@ -171,7 +172,7 @@ export default function Cart() {
               </Text>
               <Text style={{fontSize: 16}}>₹ {shippingPrice}</Text>
             </View>
-            <View
+            {/* <View
               style={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -180,7 +181,7 @@ export default function Cart() {
               }}>
               <Text style={{color: Colors.GRAY, fontSize: 16}}>GST (18%):</Text>
               <Text style={{fontSize: 16}}>₹ {tax}</Text>
-            </View>
+            </View> */}
             <View
               style={{
                 display: 'flex',

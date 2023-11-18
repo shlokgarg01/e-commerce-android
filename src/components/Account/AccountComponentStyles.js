@@ -66,7 +66,7 @@ const AccountComponentStyles = StyleSheet.create({
     height: 57,
     width: 57,
     borderRadius: 100,
-    marginRight: 25,
+    marginRight: 10
   },
   orderDetailsProductName: {
     fontWeight: 'bold',
@@ -74,14 +74,20 @@ const AccountComponentStyles = StyleSheet.create({
     width: 130,
   },
   orderDetailsProductPrice: {
-    fontSize: 19,
-    width: 88,
-    textAlign: 'right',
+    fontSize: 17,
+    width: 140,
+    textAlign: 'right'
   },
   orderDetailsTotalPrice: {
     alignSelf: 'flex-end',
     fontSize: 19,
     fontWeight: '600',
+    marginRight: -10,
+    marginTop: 10
+  },
+  orderDetailsPrice: {
+    alignSelf: 'flex-end',
+    fontSize: 17,
     marginRight: -10,
   },
   orderDetailsTxtMuted: {

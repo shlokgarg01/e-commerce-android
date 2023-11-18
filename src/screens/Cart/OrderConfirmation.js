@@ -90,7 +90,7 @@ export default function OrderConfirmation(props) {
           </Text>
           <Text style={{fontSize: 16}}>₹ {orderPrices.shippingPrice}</Text>
         </View>
-        <View
+        {/* <View
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -99,7 +99,7 @@ export default function OrderConfirmation(props) {
           }}>
           <Text style={{color: Colors.GRAY, fontSize: 16}}>GST (18%):</Text>
           <Text style={{fontSize: 16}}>₹ {orderPrices.taxPrice}</Text>
-        </View>
+        </View> */}
         <View
           style={{
             display: 'flex',

@@ -4,7 +4,7 @@ import {
   VALIDATE_COUPON_REQUEST,
   VALIDATE_COUPON_SUCCESS,
 } from '../constants/couponConstants';
-import axiosInstance from '../utils/Axios';
+import axiosInstance, { BASE_URL } from '../utils/Axios';
 
 // validate coupon
 export const validateCoupon = couponData => async dispatch => {
@@ -13,7 +13,7 @@ export const validateCoupon = couponData => async dispatch => {
 
     const config = {'Content-Type': 'application/json'};
     const {data} = await axiosInstance.post(
-      `/api/v1/coupon/validate`,
+      `${BASE_URL}/api/v1/coupon/validate`,
       couponData,
       config,
     );

@@ -11,11 +11,9 @@ export default function SearchHeader() {
   const [searchTerm, setSearchTerm] = useState('');
   const navigation = useNavigation();
 
-  const speechStartHandler = e => {
-  };
+  const speechStartHandler = e => {};
 
-  const speechEndHandler = e => {
-  };
+  const speechEndHandler = e => {};
 
   const speechResultsHandler = e => {
     const text = e.value[0];

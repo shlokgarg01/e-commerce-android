@@ -7,10 +7,12 @@ import {clearErrors, getAllCategories} from '../../actions/CategoryAction';
 import Loader from '../../components/Loader';
 import CategoryCard from '../../components/Category/CategoryCard';
 import Styles from '../Styles';
+import ViewCart from '../../components/Cart/ViewCart';
 
 export default function Category() {
   const dispatch = useDispatch();
   const {loading, error, categories} = useSelector(state => state.categories);
+  const {cartItems} = useSelector(state => state.cart);
 
   useEffect(() => {
     if (error) {
@@ -41,6 +43,14 @@ export default function Category() {
               ))}
             </View>
           </ScrollView>
+          {cartItems.length > 0 ? (
+            <ViewCart
+              quantity={cartItems.length}
+              totalPrice={cartItems.reduce((sum, item) => {
+                return sum + item.price * item.quantity;
+              }, 0)}
+            />
+          ) : null}
         </View>
       )}
     </>

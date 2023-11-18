@@ -34,7 +34,6 @@ export const userReducer = (state = {user: {}}, action) => {
     case SEND_SIGNUP_OTP_REQUEST:
     case SIGNUP_VIA_OTP_REQUEST:
     case LOAD_USER_REQUEST:
-      console.log("INSIDE USER REDUCER")
       return {
         loading: true,
         isAuthenticated: false,

@@ -1,4 +1,4 @@
-import axiosInstance from '../utils/Axios';
+import axiosInstance, { BASE_URL } from '../utils/Axios';
 import {
   TRENDNIG_PRODUCTS_REQUEST,
   TRENDNIG_PRODUCTS_FAIL,
@@ -29,9 +29,9 @@ export const getProducts =
       dispatch({
         type: ALL_PRODUCT_REQUEST,
       });
-      let link = `/api/v1/products?keyword=${keyword}`;
+      let link = `${BASE_URL}/api/v1/products?keyword=${keyword}`;
       if (category) {
-        link = `/api/v1/products?keyword=${keyword}&category=${category}`;
+        link = `${BASE_URL}/api/v1/products?keyword=${keyword}&category=${category}`;
       }
 
       const {data} = await axiosInstance(link);
@@ -54,7 +54,7 @@ export const getCategoryProducts = categoryId => async dispatch => {
     });
 
     const {data} = await axiosInstance(
-      `/api/v1/product/category/${categoryId}`,
+      `${BASE_URL}/api/v1/product/category/${categoryId}`,
     );
     dispatch({
       type: PRODUCT_BY_CATEGORY_SUCCESS,
@@ -72,7 +72,7 @@ export const getCategoryProducts = categoryId => async dispatch => {
 export const getTrendingProducts = () => async dispatch => {
   try {
     dispatch({type: TRENDNIG_PRODUCTS_REQUEST});
-    const {data} = await axiosInstance.get(`/api/v1/products/trending`);
+    const {data} = await axiosInstance.get(`${BASE_URL}/api/v1/products/trending`);
 
     dispatch({type: TRENDNIG_PRODUCTS_SUCCESS, payload: data.products});
   } catch (error) {
@@ -87,7 +87,7 @@ export const getTrendingProducts = () => async dispatch => {
 export const getFavouriteProducts = () => async dispatch => {
   try {
     dispatch({type: FAVOURITE_PRODUCTS_REQUEST});
-    const {data} = await axiosInstance.get(`/api/v1/products/favourite`);
+    const {data} = await axiosInstance.get(`${BASE_URL}/api/v1/products/favourite`);
 
     dispatch({type: FAVOURITE_PRODUCTS_SUCCESS, payload: data.products});
   } catch (error) {
@@ -102,7 +102,7 @@ export const getFavouriteProducts = () => async dispatch => {
 export const getMostOrderedProducts = () => async dispatch => {
   try {
     dispatch({type: MOST_ORDERED_PRODUCTS_REQUEST});
-    const {data} = await axiosInstance.get(`/api/v1/products/mostOrdered`);
+    const {data} = await axiosInstance.get(`${BASE_URL}/api/v1/products/mostOrdered`);
 
     dispatch({type: MOST_ORDERED_PRODUCTS_SUCCESS, payload: data.products});
   } catch (error) {
@@ -117,7 +117,7 @@ export const getMostOrderedProducts = () => async dispatch => {
 export const getsuggestedProducts = () => async dispatch => {
   try {
     dispatch({type: SUGGESTED_PRODUCTS_REQUEST});
-    const {data} = await axiosInstance.get(`/api/v1/products/suggested`);
+    const {data} = await axiosInstance.get(`${BASE_URL}/api/v1/products/suggested`);
 
     dispatch({type: SUGGESTED_PRODUCTS_SUCCESS, payload: data.products});
   } catch (error) {

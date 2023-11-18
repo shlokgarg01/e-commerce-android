@@ -40,13 +40,12 @@ export default function LoginOTP({navigation}) {
 
   return (
     <>
-      {
-        loading ? <Loader /> : <View>
+      <View>
         <AuthHeader />
         <View style={AuthStyles.formContainer}>
           <Text style={AuthStyles.heading}>LOGIN</Text>
           <InputGroup
-          label="Contact Number"
+            label="Contact Number"
             placeholder="9999999999"
             value={contactNumber}
             onChange={number => setContactNumber(number)}
@@ -56,13 +55,10 @@ export default function LoginOTP({navigation}) {
           <ButtonSubText
             title="Don't have an account?"
             subTitle="Signup"
-            subTitleOnClick={() => navigation.replace("signupotp")}
+            subTitleOnClick={() => navigation.replace('signupotp')}
           />
         </View>
       </View>
-      }
     </>
-    
-    
   );
 }

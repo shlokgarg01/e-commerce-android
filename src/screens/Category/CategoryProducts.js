@@ -1,4 +1,3 @@
-import {View, ScrollView, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {showToast} from '../../helpers/ShowToast';
@@ -8,7 +7,9 @@ import {
   getProducts,
 } from '../../actions/ProductActions';
 import Loader from '../../components/Loader';
+import CategoryProductsScreen from '../../components/Category/CategoryProductsScreen';
 import Styles from '../Styles';
+import {ScrollView, View, Text} from 'react-native';
 import ProductCard from '../../components/Products/ProductCard';
 import AccountStyles from '../Account/AccountStyles';
 import HomeComponentStyles from '../../components/Home/HomeComponentStyles';
@@ -16,7 +17,7 @@ import {deviceWidth} from '../../helpers/Dimensions';
 
 export default function CategoryProducts(props) {
   const category = props.route.params.category || undefined;
-  const categoryId = props.route.params.categoryId || null;
+  const categoryId = props.route.params.categoryId || '';
   const searchTerm = props.route.params.searchTerm || '';
 
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ export default function CategoryProducts(props) {
       dispatch(clearErrors());
     }
 
-    category?.length > 0
+    searchTerm.length > 0
       ? dispatch(getProducts(searchTerm, category))
       : dispatch(getCategoryProducts(categoryId));
   }, [error, dispatch]);
@@ -46,7 +47,7 @@ export default function CategoryProducts(props) {
     <>
       {loading ? (
         <Loader />
-      ) : (
+      ) : searchTerm.length > 0 ? (
         <View
           style={{
             display: 'flex',
@@ -62,63 +63,49 @@ export default function CategoryProducts(props) {
           ) : (
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={Styles.container}>
-                {searchTerm.length > 0 || category?.length > 0 ? (
-                  products.map(product => (
-                    <ProductCard
-                      key={product._id}
-                      product={product}
-                    />
-                  ))
-                ) : (
-                  products.map(productCategory => (
-                    <View
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        marginTop: 16,
-                        width: deviceWidth - 20,
-                      }}>
-                      {
-                        <>
-                          <View
-                            style={
-                              HomeComponentStyles.homeProductsHeadingContainer
-                            }>
-                            <Text
-                              style={HomeComponentStyles.homeProductCategory}>
-                              {productCategory.subCategory}
-                            </Text>
-                            {/* <TouchableOpacity
-                            onPress={() =>
-                              navigation.replace('tabnav', {
-                                screen: 'categorytab',
-                                params: {screen: 'category'},
-                              })
-                            }>
-                            <Text style={HomeComponentStyles.homeProductSeeAll}>
-                              See All
-                            </Text>
-                          </TouchableOpacity> */}
-                          </View>
-                          <ScrollView
-                            horizontal
-                            showsHorizontalScrollIndicator={false}>
-                            {productCategory.products.map(product => (
-                              <ProductCard
-                                key={product._id}
-                                product={product}
-                              />
-                            ))}
-                          </ScrollView>
-                        </>
-                      }
-                    </View>
-                  ))
-                )}
+                {searchTerm.length > 0 || category?.length > 0
+                  ? products.map(product => (
+                      <ProductCard key={product._id} product={product} />
+                    ))
+                  : products.map(productCategory => (
+                      <View
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          marginTop: 16,
+                          width: deviceWidth - 20,
+                        }}>
+                        {
+                          <>
+                            <View
+                              style={
+                                HomeComponentStyles.homeProductsHeadingContainer
+                              }>
+                              <Text
+                                style={HomeComponentStyles.homeProductCategory}>
+                                {productCategory.subCategory}
+                              </Text>
+                            </View>
+                            <ScrollView
+                              horizontal
+                              showsHorizontalScrollIndicator={false}>
+                              {productCategory.products.map(product => (
+                                <ProductCard
+                                  key={product._id}
+                                  product={product}
+                                />
+                              ))}
+                            </ScrollView>
+                          </>
+                        }
+                      </View>
+                    ))}
               </View>
             </ScrollView>
           )}
         </View>
+      ) : (
+        <CategoryProductsScreen products={products} />
       )}
     </>
   );

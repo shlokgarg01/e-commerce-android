@@ -19,12 +19,14 @@ import {useEffect} from 'react';
 import {showToast} from '../../helpers/ShowToast';
 import {clearErrors, getAllCategories} from '../../actions/CategoryAction';
 import HomeCategoryProducts from '../../components/Home/HomeCategoryProducts';
+import ViewCart from '../../components/Cart/ViewCart';
 
 export default function Home() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [activeIndex, setActiveIndex] = useState(0);
   const {error, categories} = useSelector(state => state.categories);
+  const {cartItems} = useSelector(state => state.cart);
 
   useEffect(() => {
     if (error) {
@@ -84,16 +86,16 @@ export default function Home() {
   };
 
   const renderItems = ({item, index}) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate('tabnav', {
-          screen: 'categorytab',
-          params: {
-            screen: 'categoryproducts',
-            params: {category: item.category},
-          },
-        })
-      }
+    <View
+      // onPress={() =>
+      //   navigation.navigate('tabnav', {
+      //     screen: 'categorytab',
+      //     params: {
+      //       screen: 'categoryproducts',
+      //       params: {category: item.category},
+      //     },
+      //   })
+      // }
       style={{
         borderRadius: 5,
         marginTop: 10,
@@ -102,7 +104,7 @@ export default function Home() {
         source={item.url}
         style={{height: 150, width: 301, borderRadius: 5}}
       />
-    </TouchableOpacity>
+    </View>
   );
 
   return (
@@ -165,6 +167,7 @@ export default function Home() {
                 categoryName={category.name}
                 label={category.name}
                 index={index}
+                key={index}
               />
             ))}
         <HomeProducts
@@ -173,6 +176,14 @@ export default function Home() {
           category="suggested"
         />
       </ScrollView>
+      {cartItems.length > 0 ? (
+        <ViewCart
+          quantity={cartItems.length}
+          totalPrice={cartItems.reduce((sum, item) => {
+            return sum + item.price * item.quantity;
+          }, 0)}
+        />
+      ) : null}
     </View>
   );
 }

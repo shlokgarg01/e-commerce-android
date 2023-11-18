@@ -1,4 +1,4 @@
-import axiosInstance from '../utils/Axios';
+import axiosInstance, { BASE_URL } from '../utils/Axios';
 import {
   CLEAR_ERRORS,
   LOAD_USER_FAIL,
@@ -25,6 +25,7 @@ import {
   VERIFY_SIGNUP_VIA_OTP_REQUEST,
   VERIFY_SIGNUP_VIA_OTP_SUCCESS,
 } from '../constants/UserConstants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // send OTP FOR LOGIN
 export const sendOPTPLogin = contactNumber => async dispatch => {
@@ -33,7 +34,7 @@ export const sendOPTPLogin = contactNumber => async dispatch => {
 
     const config = {headers: {'Content-Type': 'application/json'}};
     const {data} = await axiosInstance.post(
-      `/api/v1/login/otp/send`,
+      `${BASE_URL}/api/v1/login/otp/send`,
       {contactNumber},
       config,
     );
@@ -54,10 +55,11 @@ export const loginViaOTP = (contactNumber, otp) => async dispatch => {
 
     const config = {headers: {'Content-Type': 'application/json'}};
     const {data} = await axiosInstance.post(
-      `/api/v1/login/otp/verify`,
+      `${BASE_URL}/api/v1/login/otp/verify`,
       {contactNumber, otp},
       config,
     );
+    await AsyncStorage.setItem('token', JSON.stringify(data.token));
 
     dispatch({type: LOGIN_VIA_OTP_SUCCESS, payload: data.user});
   } catch (error) {
@@ -75,7 +77,7 @@ export const sendOPTPRegistration = contactNumber => async dispatch => {
 
     const config = {headers: {'Content-Type': 'application/json'}};
     const {data} = await axiosInstance.post(
-      `/api/v1/register/otp/send`,
+      `${BASE_URL}/api/v1/register/otp/send`,
       {contactNumber},
       config,
     );
@@ -97,7 +99,7 @@ export const verifyOPTPRegistration =
 
       const config = {headers: {'Content-Type': 'application/json'}};
       const {data} = await axiosInstance.post(
-        `/api/v1/register/otp/verify`,
+        `${BASE_URL}/api/v1/register/otp/verify`,
         {contactNumber, otp},
         config,
       );
@@ -119,10 +121,11 @@ export const EnterDetailsOPTPRegistration =
 
       const config = {headers: {'Content-Type': 'application/json'}};
       const {data} = await axiosInstance.post(
-        `/api/v1/register/otp`,
+        `${BASE_URL}/api/v1/register/otp`,
         registrationData,
         config,
       );
+      await AsyncStorage.setItem('token', JSON.stringify(data.token));
 
       dispatch({type: SIGNUP_VIA_OTP_SUCCESS, payload: data.user});
     } catch (error) {
@@ -136,7 +139,8 @@ export const EnterDetailsOPTPRegistration =
 // logout user
 export const logout = () => async dispatch => {
   try {
-    await axiosInstance.get(`/api/v1/logout`);
+    await axiosInstance.get(`${BASE_URL}/api/v1/logout`);
+    await AsyncStorage.clear()
     dispatch({type: LOGOUT_SUCCESS});
   } catch (error) {
     dispatch({
@@ -149,15 +153,11 @@ export const logout = () => async dispatch => {
 // load existing user
 export const loadUser = () => async dispatch => {
   try {
-    console.log("=====================================")
     dispatch({type: LOAD_USER_REQUEST});
-    console.log("+++++++++++++++++++++++++++++++++++++")
-    const {data} = await axiosInstance.get(`/api/v1/me`);
-    console.log("INSIDE USER ACTION FOR ME - ", data)
+    const {data} = await axiosInstance.get(`${BASE_URL}/api/v1/me`, {});
 
     dispatch({type: LOAD_USER_SUCCESS, payload: data.user});
   } catch (error) {
-    console.log("ERROR IN LOAD USER , ", error)
     dispatch({
       type: LOAD_USER_FAIL,
       payload: error.response.data.message,
@@ -172,7 +172,7 @@ export const updateUserDetails = userData => async dispatch => {
 
     const config = {'Content-Type': 'application/json'};
     const {data} = await axiosInstance.put(
-      `/api/v1/me/update`,
+      `${BASE_URL}/api/v1/me/update`,
       userData,
       config,
     );

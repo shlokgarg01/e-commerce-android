@@ -44,13 +44,22 @@ export default function ProductCard({product}) {
         })
       }
       style={ProductStyles.productCardContainer}>
-      <Image
-        source={{uri: product.images[0].url}}
-        style={ProductStyles.productCardImage}
-      />
+      {/* If image is not present, then showing placeholder image */}
+      {product.images[0] ? (
+        <Image
+          source={{uri: product.images[0].url}}
+          style={ProductStyles.productCardImage}
+        />
+      ) : (
+        <Image
+          source={require('../../images/placeholder_image.png')}
+          style={ProductStyles.productCardImage}
+        />
+      )}
       <Text style={ProductStyles.productCardName}>{product.name}</Text>
       <View style={ProductStyles.productCardSubContainer}>
-        <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <View
+          style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           {product.finalPrice !== product.price ? (
             <Text
               style={{
@@ -60,7 +69,10 @@ export default function ProductCard({product}) {
               ₹{product.price}
             </Text>
           ) : null}
-          <Text style={{fontSize: 17, fontWeight: "600" }}>{" "}₹{product.finalPrice}</Text>
+          <Text style={{fontSize: 17, fontWeight: '600'}}>
+            {' '}
+            ₹{product.finalPrice}
+          </Text>
         </View>
 
         {/* Add To Cart Button */}

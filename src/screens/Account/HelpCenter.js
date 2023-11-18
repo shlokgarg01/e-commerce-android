@@ -4,7 +4,7 @@ import React from 'react'
 export default function HelpCenter() {
   return (
     <View>
-      <Text>HelpCenter</Text>
+      <Text style={{ fontSize: 19, textAlign: 'center', marginTop: 16, fontWeight: "bold" }}>Please contact the Admin for help.</Text>
     </View>
   )
 }

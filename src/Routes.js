@@ -87,20 +87,36 @@ const HomeTabScreen = ({navigation}) => {
   );
 };
 
-const CategoryTabScreen = () => (
-  <Tab.Navigator screenOptions={{tabBarStyle: {display: 'none'}}}>
-    <Tab.Screen
-      name="category"
-      component={Category}
-      options={() => headerOptions('Categories')}
-    />
-    <Tab.Screen
-      name="categoryproducts"
-      component={CategoryProducts}
-      options={() => headerOptions('Products')}
-    />
-  </Tab.Navigator>
-);
+const CategoryTabScreen = ({navigation}) => {
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', e => {
+      if (e.target.split('-')[0] === 'categorytab') {
+        // Reset the stack to the first screen (Product)
+        navigation.navigate('tabnav', {
+          screen: 'categorytab',
+          params: {screen: 'category'},
+        });
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  return (
+    <Tab.Navigator screenOptions={{tabBarStyle: {display: 'none'}}}>
+      <Tab.Screen
+        name="category"
+        component={Category}
+        options={() => headerOptions('Categories')}
+      />
+      <Tab.Screen
+        name="categoryproducts"
+        component={CategoryProducts}
+        options={() => headerOptions('Products')}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const CartTabScreen = () => (
   <Tab.Navigator screenOptions={{tabBarStyle: {display: 'none'}}}>
@@ -270,23 +286,3 @@ function Routes() {
 }
 
 export default Routes;
-
-// import { createAppContainer } from 'react-navigation';
-// import { createBottomTabNavigator } from 'react-navigation-tabs';
-// import { createStackNavigator } from 'react-navigation-stack';
-
-// // ... (Define your screen components and navigation stacks as before)
-
-// // Define the Bottom Tab Navigator
-// const TabNavigator = createBottomTabNavigator({
-//   Home: HomeStack,
-//   Settings: SettingsStack,
-// }, {
-//   navigationOptions: ({ navigation }) => ({
-//     tabBarOnPress: ,
-//   }),
-// });
-
-// const AppContainer = createAppContainer(TabNavigator);
-
-// export default AppContainer;

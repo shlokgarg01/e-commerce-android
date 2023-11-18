@@ -1,10 +1,10 @@
 import {ADD_TO_CART, REMOVE_CART_ITEM} from '../constants/CartConstants';
 import {setValue} from '../helpers/LocalStorage';
-import axiosInstance from '../utils/Axios';
+import axiosInstance, { BASE_URL } from '../utils/Axios';
 
 // add to cart
 export const addItemsToCart = (id, quantity) => async (dispatch, getState) => {
-  const {data} = await axiosInstance.get(`/api/v1/product/${id}`);
+  const {data} = await axiosInstance.get(`${BASE_URL}/api/v1/product/${id}`);
 
   if (quantity === 0) {
     dispatch({

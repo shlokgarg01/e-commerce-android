@@ -35,7 +35,7 @@ export default function HomeCategoryProducts({label, categoryId, categoryName}) 
                   screen: 'categorytab',
                   params: {
                     screen: 'categoryproducts',
-                    params: {category: categoryName},
+                    params: {categoryId},
                   },
                 })
               }>

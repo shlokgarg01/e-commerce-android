@@ -29,7 +29,9 @@ export default function OrderDetails(props) {
           Order #{order._id}
         </Text>
         {order.orderItems.map(item => (
-          <View key={item.product} style={AccountComponentStyles.orderDetailsItemContainer}>
+          <View
+            key={item.product}
+            style={AccountComponentStyles.orderDetailsItemContainer}>
             <Image
               source={{uri: item.image}}
               style={AccountComponentStyles.orderDetailsProductImage}
@@ -44,10 +46,22 @@ export default function OrderDetails(props) {
               style={AccountComponentStyles.orderDetailsProductPrice}
               ellipsizeMode="tail"
               numberOfLines={2}>
-              ₹ {item.price}
+              {item.quantity} X ₹ {item.price} = ₹ {item.quantity * item.price}
             </Text>
           </View>
         ))}
+        <Text style={AccountComponentStyles.orderDetailsPrice}>
+          Items Price = ₹{' '}
+          {order.orderItems.reduce((sum, item) => {
+            return sum + item.price * item.quantity;
+          }, 0)}
+        </Text>
+        {/* <Text style={AccountComponentStyles.orderDetailsPrice}>
+          Tax = ₹ {order.taxPrice}
+        </Text> */}
+        <Text style={AccountComponentStyles.orderDetailsPrice}>
+          Shipping Charge = ₹ {order.shippingPrice}
+        </Text>
         <Text style={AccountComponentStyles.orderDetailsTotalPrice}>
           Total = ₹ {order.totalPrice}
         </Text>
